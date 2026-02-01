@@ -1,7 +1,7 @@
 process FastQC {
 
     tag "$sample_id"
-    projectDir "${params.outdir}/quality_control/fastqc", mode: 'copy'
+    publishDir "${params.outdir}/quality_control/fastqc", mode: 'copy'
 
     cpus 1
     memory '1 GB'

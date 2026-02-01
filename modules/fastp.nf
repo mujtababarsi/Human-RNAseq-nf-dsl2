@@ -1,7 +1,7 @@
 process FASTP {
 
     tag "$sample_id"
-    projectDir "${params.outdir}/preprocessing/fastp", mode: 'copy'
+    publishDir "${params.outdir}/preprocessing/fastp", mode: 'copy'
 
     cpus 2
     memory '2 GB'
