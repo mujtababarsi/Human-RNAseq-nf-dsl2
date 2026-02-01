@@ -5,7 +5,7 @@ process FastQC {
     cpus 1
     memory '1 GB'
 
-    conda 'nf-fastqc'
+    conda "${projectDir}/envs/fastqc.yml"
 
     input:
     tuple val(sample_id), path(fastq)
