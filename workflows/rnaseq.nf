@@ -1,37 +1,34 @@
-/*
- * RNA-seq main workflow (DSL2)
- * Current steps:
- *   1) FastQC  – raw read quality control
- *   2) Fastp   – adapter & quality trimming (single-end)
- */
-
 include { FastQC } from '../modules/fastqc.nf'
 include { FASTP  } from '../modules/fastp.nf'
 
 workflow RNASEQ_WORKFLOW {
 
-    /*
-     * Input channel:
-     * tuple(sample_id, fastq)
-     */
     take:
     samples_ch
 
     main:
     /*
-     * Step 1: Quality control on raw reads
+     * Run FastQC
+     * This returns multiple named outputs
      */
-    qc_results = FastQC(samples_ch)
+    fastqc_out = FastQC(samples_ch)
 
     /*
-     * Step 2: Trim reads
+     * Run Fastp trimming
      */
-    trimmed_reads = FASTP(samples_ch)
+    fastp_out = FASTP(samples_ch)
 
-    /*
-     * Outputs are emitted for downstream steps
-     */
     emit:
-    qc_results
-    trimmed_reads
+    /*
+     * Emit FastQC outputs separately
+     */
+    fastqc_html = fastqc_out.html
+    fastqc_zip  = fastqc_out.zip
+
+    /*
+     * Emit Fastp outputs
+     */
+    trimmed_reads = fastp_out.trimmed
+    fastp_report  = fastp_out.report
+    fastp_json    = fastp_out.json
 }
