@@ -19,5 +19,6 @@ process FastQC {
 
     script:
     """
-    fastqc $fastq --outdir .
+    fastqc $fastq --outdir . 
     """
+}
