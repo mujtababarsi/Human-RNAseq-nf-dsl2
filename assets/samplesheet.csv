@@ -1,2 +1,2 @@
-sample_id,fastq
-sample1,data/raw/sample1.fastq.gz
+sample_id,fastq_1,fastq_2
+sample1,data/sample1.fastq.gz,

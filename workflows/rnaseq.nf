@@ -1,5 +1,7 @@
 include { FastQC } from '../modules/fastqc.nf'
 include { FASTP  } from '../modules/fastp.nf'
+include { HISAT2_ALIGN } from '../modules/hisat2.nf'
+include { MULTIQC } from '../modules/multiqc.nf'
 
 workflow RNASEQ_WORKFLOW {
 
@@ -17,6 +19,10 @@ workflow RNASEQ_WORKFLOW {
      * Run Fastp trimming
      */
     fastp_out = FASTP(samples_ch)
+    /*
+     * Align reads using HISAT2
+     */
+    hisat2_out = HISAT2_ALIGN(fastp_out.trimmed)
 
     emit:
     /*
