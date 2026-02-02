@@ -3,7 +3,7 @@ include { FASTP  } from '../modules/fastp.nf'
 include { STAR_ALIGN }    from '../modules/star.nf'
 include { FEATURECOUNTS } from '../modules/featurecounts.nf'
 include { MULTIQC } from '../modules/multiqc.nf'
-
+include { BUILD_INDEX } from '../modules/build_index.nf'
 workflow RNASEQ_WORKFLOW {
 
     take:
