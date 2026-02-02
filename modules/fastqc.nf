@@ -6,8 +6,7 @@ process FastQC {
     cpus 1
     memory '1 GB'
 
-    conda "${projectDir}/envs/fastqc.yml"
-
+    container 'quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0'
     input:
     tuple val(sample_id), path(fastq)
 
