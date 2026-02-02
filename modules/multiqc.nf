@@ -3,8 +3,8 @@ process MULTIQC {
     cpus 1
     memory '1 GB'
 
-    conda "${projectDir}/envs/multiqc.yaml"
-
+    container 'quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0'
+    
     input:
     path reports
 
