@@ -14,10 +14,8 @@ Channel
     .fromPath(params.samplesheet)
     .splitCsv(header: true)
     .map { row ->
-        // Fix 1: Add checkIfExists to ensure file is actually found
         def r1 = file(row.fastq_1, checkIfExists: true)
         
-        // Fix 2: Group paired reads into a list [r1, r2] to match module input
         if (row.fastq_2) {
             def r2 = file(row.fastq_2, checkIfExists: true)
             return tuple(row.sample_id, [r1, r2]) 
@@ -31,5 +29,7 @@ Channel
  * Run workflow
  */
 workflow {
+    // We just pass the samples to the workflow. 
+    // The workflow itself will handle building the index.
     RNASEQ_WORKFLOW(samples_ch)
-}   
+}
