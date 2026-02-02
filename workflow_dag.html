@@ -34,6 +34,39 @@
   }
 }%%
 flowchart TB
+    subgraph " "
+    v0["Channel.fromPath"]
+    v3["fasta"]
+    v4["gtf"]
+    end
+    subgraph "RNASEQ_WORKFLOW [RNASEQ_WORKFLOW]"
+    v5(["BUILD_INDEX"])
+    v7(["FastQC"])
+    v8(["FASTP"])
+    v9(["STAR_ALIGN"])
+    v10(["FEATURECOUNTS"])
+    v18(["MULTIQC"])
+    v12(( ))
+    end
+    subgraph " "
+    v6[" "]
+    v19[" "]
+    end
+    v1(( ))
+    v0 --> v1
+    v3 --> v5
+    v4 --> v5
+    v5 --> v6
+    v1 --> v7
+    v7 --> v12
+    v1 --> v8
+    v8 --> v9
+    v8 --> v12
+    v9 --> v10
+    v9 --> v12
+    v10 --> v12
+    v12 --> v18
+    v18 --> v19
 
 </pre>
 <script type="module">

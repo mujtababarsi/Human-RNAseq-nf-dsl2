@@ -20,4 +20,8 @@ results/
 # --- OS & Editor Specific ---
 .DS_Store
 .vscode/
-.github/workflows/
+.github/workflows/references/
+work/
+results/
+.nextflow*
+references/
