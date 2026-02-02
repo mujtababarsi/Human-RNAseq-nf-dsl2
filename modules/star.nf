@@ -2,6 +2,8 @@ process STAR_ALIGN {
 
     tag "$sample_id"
 
+    container 'quay.io/biocontainers/star:2.7.10b--h6b7c446_1'
+   
     input:
     tuple val(sample_id), path(reads)
 
