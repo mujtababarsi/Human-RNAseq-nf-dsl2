@@ -1,0 +1,6 @@
+name: nf-featurecounts
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - subread=2.0.6
