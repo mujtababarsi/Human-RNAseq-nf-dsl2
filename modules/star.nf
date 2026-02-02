@@ -1,9 +1,13 @@
 process STAR_ALIGN {
 
     tag "$sample_id"
+    publishDir "${params.outdir}/alignment/star", mode: 'copy'
+
+    cpus 2
+    memory '4 GB'
 
     container 'quay.io/biocontainers/star:2.7.10b--h6b7c446_1'
-   
+
     input:
     tuple val(sample_id), path(reads)
 
