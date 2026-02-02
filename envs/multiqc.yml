@@ -1,0 +1,6 @@
+name: nf-multiqc
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - multiqc=1.21
