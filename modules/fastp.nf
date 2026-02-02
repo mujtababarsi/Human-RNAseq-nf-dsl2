@@ -6,8 +6,7 @@ process FASTP {
     cpus 2
     memory '2 GB'
 
-    conda "${projectDir}/envs/fastp.yml"
-
+    container 'quay.io/biocontainers/fastp:0.23.4--hadf994f_1'
     input:
     tuple val(sample_id), path(reads)
 
