@@ -31,8 +31,14 @@ workflow RNASEQ_WORKFLOW {
     /*
      * Aggregate reports using MultiQC
      */
-    MULTIQC(fastqc_out.html, fastp_out.report)
-    
+    qc_files = Channel.merge(
+        fastqc_out,
+        fastp_out,
+        star_out,
+        featurecounts_out
+    )
+    MULTIQC(qc_files)
+     
     emit:
     
     fastqc_html = fastqc_out.html
