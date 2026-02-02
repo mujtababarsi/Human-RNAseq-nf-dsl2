@@ -24,7 +24,7 @@ workflow RNASEQ_WORKFLOW {
      * Align reads using STAR
      * FIX: Added params.genome as the 2nd argument
      */
-    star_out = STAR_ALIGN(fastp_out.trimmed, params.genome)
+    star_out = STAR_ALIGN(fastp_out.trimmed)
 
     /*
      * Quantify features using FeatureCounts
