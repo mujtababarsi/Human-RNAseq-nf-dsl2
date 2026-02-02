@@ -5,7 +5,7 @@ process STAR_ALIGN
     cpus 4
     memory '6 GB'
     
-    conda "${projectDir}/envs/star.yml"
+    container 'quay.io/biocontainers/star:2.7.10b--h6b7c446_1'
     
     input:
     tuple val(sample_id), path(reads)
