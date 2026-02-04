@@ -1,4 +1,6 @@
 process MULTIQC {
+    // Defines where to save the output and 'copy' ensures it remains even if work/ is deleted
+    publishDir "${params.outdir}/multiqc", mode: 'copy'
 
     cpus 1
     memory '1 GB'

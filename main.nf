@@ -3,19 +3,20 @@
 nextflow.enable.dsl=2
 
 /*
- * Load the RNA-seq workflow
+ * 1. Load Pipeline Modules
  */
 include { RNASEQ_WORKFLOW } from './workflows/rnaseq.nf'
 
 /*
- * Read samplesheet and create a channel
+ * 2. Input Parameter Handling
+ * Parses the provided samplesheet to create input channels for
+ * Single-end or Paired-end reads.
  */
 Channel
     .fromPath(params.samplesheet)
     .splitCsv(header: true)
     .map { row ->
         def r1 = file(row.fastq_1, checkIfExists: true)
-        
         if (row.fastq_2) {
             def r2 = file(row.fastq_2, checkIfExists: true)
             return tuple(row.sample_id, [r1, r2]) 
@@ -26,10 +27,9 @@ Channel
     .set { samples_ch }
 
 /*
- * Run workflow
+ * 3. Main Workflow Execution
+ * Runs the alignment, quantification, and QC steps.
  */
 workflow {
-    // We just pass the samples to the workflow. 
-    // The workflow itself will handle building the index.
     RNASEQ_WORKFLOW(samples_ch)
 }

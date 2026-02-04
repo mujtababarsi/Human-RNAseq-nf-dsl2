@@ -1,27 +1,31 @@
 # --- Nextflow Work & Execution Logs ---
-# These folders contain thousands of temporary files
 .nextflow/
 work/
 .nextflow.log*
-
-# --- Project Binaries ---
-# Ignoring the entire bin folder prevents any Java or SRA Toolkit 
-# files from being tracked, regardless of their subfolders.
-bin/
+.nextflow.pid
 
 # --- Large Data Files & Results ---
-# Never push raw sequencing data or generated results
-data/
+data/*
+!data/.gitkeep
 results/
 *.fastq.gz
 *.sra
 *.bam
 
+# --- References ---
+# Ignore large genomic files but keep the directory structure
+references/*
+!references/.gitkeep
+
 # --- OS & Editor Specific ---
 .DS_Store
 .vscode/
-.github/workflows/references/
-work/
-results/
-.nextflow*
-references/
+.idea/
+report-*.html
+timeline-*.html
+flowchart.png
+bin/
+# Ignore execution artifacts
+flowchart.png
+report-*.html
+timeline-*.html
