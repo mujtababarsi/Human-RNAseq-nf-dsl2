@@ -1,3 +1,10 @@
+/*
+ * RNA-SEQ WORKFLOW 
+ * -----------------------------------------------------------
+ * This is the main logic for the pipeline. It handles everything 
+ * from initial QC to the final MultiQC aggregation.
+ */
+
 include { BUILD_INDEX }   from '../modules/build_index.nf'
 include { FastQC }        from '../modules/fastqc.nf'
 include { FASTP  }        from '../modules/fastp.nf'
@@ -9,25 +16,32 @@ workflow RNASEQ_WORKFLOW {
     take: samples_ch
 
     main:
-    // 1. Build Index and capture the output folder
+    // First, make sure the samplesheet isn't empty. 
+    // No point running the whole thing if there's no data.
+    samples_ch
+        .ifEmpty { error "The input samplesheet is empty. Please check: assets/samplesheet.csv" }
+
+    // Kick off the genome indexing using the fasta and gtf from config
     index_ch = BUILD_INDEX(
         file(params.fasta, checkIfExists: true), 
         file(params.gtf, checkIfExists: true)
     ).index
 
-    // 2. Preprocessing
-    fastqc_out = FastQC(samples_ch)
+    // Run basic quality control and preprocessing on raw reads
+    // I'm specifically pulling out the .html for MultiQC later
+    fastqc_out = FastQC(samples_ch).html
     fastp_out  = FASTP(samples_ch)
 
-    // 3. Align: We now pass BOTH the reads and the index
+    // Alignment step: taking the trimmed reads and mapping them to the index
     star_out = STAR_ALIGN(fastp_out.trimmed, index_ch)
 
-    // 4. Quantify
+    // Generate gene counts from the BAM files
     counts_out = FEATURECOUNTS(star_out.bam)
 
-    // 5. Report
-    qc_files = Channel.empty()
-        .mix(fastqc_out)
+    // Gathering all the different logs and reports for the final MultiQC.
+    // I'm mixing these into one channel and collecting them to ensure 
+    // MultiQC only starts once everything else is finished.
+    qc_files = fastqc_out
         .mix(fastp_out.json)
         .mix(fastp_out.report)
         .mix(star_out.log)
@@ -37,6 +51,6 @@ workflow RNASEQ_WORKFLOW {
     MULTIQC(qc_files)
      
     emit:
-    bam = star_out.bam
+    bam    = star_out.bam
     counts = counts_out.counts
 }
