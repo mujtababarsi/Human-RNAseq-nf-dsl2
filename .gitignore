@@ -23,9 +23,9 @@ references/*
 .idea/
 report-*.html
 timeline-*.html
-
+workflow_dag.html
 bin/
 # Ignore execution artifacts
-flowchart.png
+
 report-*.html
 timeline-*.html
